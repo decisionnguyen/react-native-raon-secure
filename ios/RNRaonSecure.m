@@ -1,7 +1,6 @@
 
 #import "RNRaonSecure.h"
 #import "RSKSW/RSKSWCertManager.h"
-#import "RSKSW/RSKSWICRProtocol.h"
 
 @implementation RNRaonSecure
 
@@ -50,7 +49,7 @@ RCT_REMAP_METHOD(getReceiveCode,
             return;
         }
         
-        RSKSWICRProtocol *icrp = [[RSKSWICRProtocol alloc] initWithIP:@"211.32.131.182" port:10500];
+        self.icrp = [[RSKSWICRProtocol alloc] initWithIP:@"211.32.131.182" port:10500];
         int ret = [icrp import1];
         if (ret < 0) {
             //            NSLog(@"%d : %@", icrp.lastErrorCode, icrp.lastErrorMessage);

@@ -5,7 +5,11 @@
 #import <React/RCTBridgeModule.h>
 #endif
 
+#import "RSKSW/RSKSWICRProtocol.h"
+
 @interface RNRaonSecure : NSObject <RCTBridgeModule>
+
+    RSKSWICRProtocol *icrp;
 
 @end
   
