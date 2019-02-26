@@ -14,8 +14,9 @@ export default class RaonSecure extends React.PureComponent {
         super(props);
     }
 
-    showItem() {
-
+    async showItem() {
+        let response = await RNRaonSecure.getReceiveCode();
+        alert(JSON.stringify(response));
     }
 
     render () {
@@ -41,4 +42,6 @@ const styles = StyleSheet.create({
     container : {
     }
 });
+
+
 
