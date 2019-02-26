@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		B3E7B58A1CC2AC0600A0062D /* RNRaonSecure.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNRaonSecure.m */; };
-		BA3E3C8722254D25004EF77F /* RSLicenseSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA3E3C8422254D25004EF77F /* RSLicenseSDK.framework */; };
 		BA3E3C8822254D25004EF77F /* libKeySharpCryptoV1_3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA3E3C8522254D25004EF77F /* libKeySharpCryptoV1_3.a */; };
 		BA3E3C8922254D25004EF77F /* libRSKSW2_v2.0.2.7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA3E3C8622254D25004EF77F /* libRSKSW2_v2.0.2.7.a */; };
 /* End PBXBuildFile section */
@@ -30,7 +29,6 @@
 		134814201AA4EA6300B7C361 /* libRNRaonSecure.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNRaonSecure.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3E7B5881CC2AC0600A0062D /* RNRaonSecure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNRaonSecure.h; sourceTree = "<group>"; };
 		B3E7B5891CC2AC0600A0062D /* RNRaonSecure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNRaonSecure.m; sourceTree = "<group>"; };
-		BA3E3C8422254D25004EF77F /* RSLicenseSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RSLicenseSDK.framework; sourceTree = "<group>"; };
 		BA3E3C8522254D25004EF77F /* libKeySharpCryptoV1_3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKeySharpCryptoV1_3.a; sourceTree = "<group>"; };
 		BA3E3C8622254D25004EF77F /* libRSKSW2_v2.0.2.7.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRSKSW2_v2.0.2.7.a; sourceTree = "<group>"; };
 		BA3E3CF622255023004EF77F /* RSKSW */ = {isa = PBXFileReference; lastKnownFileType = folder; path = RSKSW; sourceTree = "<group>"; };
@@ -43,7 +41,6 @@
 			files = (
 				BA3E3C8822254D25004EF77F /* libKeySharpCryptoV1_3.a in Frameworks */,
 				BA3E3C8922254D25004EF77F /* libRSKSW2_v2.0.2.7.a in Frameworks */,
-				BA3E3C8722254D25004EF77F /* RSLicenseSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,7 +61,6 @@
 				BA3E3CF622255023004EF77F /* RSKSW */,
 				BA3E3C8522254D25004EF77F /* libKeySharpCryptoV1_3.a */,
 				BA3E3C8622254D25004EF77F /* libRSKSW2_v2.0.2.7.a */,
-				BA3E3C8422254D25004EF77F /* RSLicenseSDK.framework */,
 				B3E7B5881CC2AC0600A0062D /* RNRaonSecure.h */,
 				B3E7B5891CC2AC0600A0062D /* RNRaonSecure.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
