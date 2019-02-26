@@ -33,7 +33,7 @@
 		BA3E3C8422254D25004EF77F /* RSLicenseSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RSLicenseSDK.framework; sourceTree = "<group>"; };
 		BA3E3C8522254D25004EF77F /* libKeySharpCryptoV1_3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKeySharpCryptoV1_3.a; sourceTree = "<group>"; };
 		BA3E3C8622254D25004EF77F /* libRSKSW2_v2.0.2.7.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRSKSW2_v2.0.2.7.a; sourceTree = "<group>"; };
-		BA3E3CE522254F68004EF77F /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
+		BA3E3CF622255023004EF77F /* RSKSW */ = {isa = PBXFileReference; lastKnownFileType = folder; path = RSKSW; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +61,7 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-				BA3E3CE522254F68004EF77F /* include */,
+				BA3E3CF622255023004EF77F /* RSKSW */,
 				BA3E3C8522254D25004EF77F /* libKeySharpCryptoV1_3.a */,
 				BA3E3C8622254D25004EF77F /* libRSKSW2_v2.0.2.7.a */,
 				BA3E3C8422254D25004EF77F /* RSLicenseSDK.framework */,
