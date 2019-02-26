@@ -30,8 +30,13 @@ export default class RaonSecure extends React.PureComponent {
     async import() {
         try {
             let response = await RNRaonSecure.importCertify();
-            if (this.props.onSuccess) {
-                this.props.onSuccess(response);
+            if (!response.isError) {
+                if (this.props.onSuccess) {
+                    this.props.onSuccess(response);
+                }
+            }
+            else {
+                this.props.onError(response);
             }
         }
         catch(e) {
@@ -79,4 +84,5 @@ const styles = StyleSheet.create({
     container : {
     }
 });
+
 
