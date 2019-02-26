@@ -7,9 +7,9 @@
 
 #import "RSKSW/RSKSWICRProtocol.h"
 
-@interface RNRaonSecure : NSObject <RCTBridgeModule>
-
+@interface RNRaonSecure : NSObject <RCTBridgeModule> {
     RSKSWICRProtocol *icrp;
+}
 
 @end
-  
+
