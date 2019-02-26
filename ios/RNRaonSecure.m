@@ -44,12 +44,13 @@ RCT_REMAP_METHOD(removeItem,
 RCT_REMAP_METHOD(getReceiveCode,
                  getReceiveCodeWithResolver: (RCTPromiseResolveBlock)resolve rejecter: (RCTPromiseRejectBlock)reject) {
     @try {
+        int ret1 = [RSKSWICRProtocol getLibraryState];
+        if (ret1 != 8) {
+            reject(@"RNRaonSecure", @"License Not Allowed", nil);
+            return;
+        }
         
-        //        RSKSWCertManager *manager = [RSKSWCertManager getInstance];
-        //        resolve([self getAccessToken]);
-        
-        RSKSWICRProtocol *icrp = [[RSKSWICRProtocol alloc] initWithIP:@"ksbiz.raonsecure.com" port:8080 siteCode:@"00000"];
-        
+        RSKSWICRProtocol *icrp = [[RSKSWICRProtocol alloc] initWithIP:@"211.32.131.182" port:10500];
         int ret = [icrp import1];
         if (ret < 0) {
             //            NSLog(@"%d : %@", icrp.lastErrorCode, icrp.lastErrorMessage);
