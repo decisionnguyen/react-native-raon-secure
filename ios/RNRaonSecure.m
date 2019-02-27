@@ -104,21 +104,22 @@ RCT_REMAP_METHOD(exportFile,
 RCT_REMAP_METHOD(checkPassword,
                  checkPasswordWithSubjectDn:(nonnull NSString *)subjectDn Password:(nonnull NSString *)password resolver: (RCTPromiseResolveBlock)resolve rejecter: (RCTPromiseRejectBlock)reject) {
     @try {
-
-        BOOL success;
+        
+        BOOL success = NO;
         RSKSWCertManager *manager = [RSKSWCertManager getInstance];
         if ([manager count] > 0) {
             for (int i = 0; i < [manager count]; i++) {
                 RSKSWCertificate* cert = [manager getCert:i];
                 if ([cert.getSubjectDn isEqualToString:subjectDn]) {
                     int ret = [manager checkPassword:i currentPassword:password];
-                    success = ret > 0 ? YES : NO;
+                    NSLog(@"ret : %d", ret);
+                    success = ret >= 0 ? YES : NO;
                     break;
                 }
             }
         }
         
-        NSDictionary * result = @{ @"success": success };
+        NSDictionary * result = @{ @"success": success ? @YES : @NO };
         resolve(result);
     }
     @catch(NSException * e) {
@@ -212,6 +213,4 @@ RCT_REMAP_METHOD(importCertify,
     }
 }
 
-
 @end
-

@@ -18,7 +18,7 @@ export default class RaonSecure extends React.PureComponent {
     }
 
     static async checkPassword(subjectDn, password) {
-        return await checkPassword(subjectDn, password);
+        return await RNRaonSecure.checkPassword(subjectDn, password);
     }
 
     state = {};
