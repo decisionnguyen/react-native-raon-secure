@@ -62,7 +62,23 @@ public class RNRaonSecureModule extends ReactContextBaseJavaModule {
 
             RSKSWCertManager manager = RSKSWCertManager.getInstance(reactContext);
 
-            promise.resolve(null);
+            int n = 0;
+            boolean isRemove = false;
+            manager.setCertLoadingMode(RSKSWCertManager.CERT_IN_SDCARD | RSKSWCertManager.CERT_FILTER_NPKI | RSKSWCertManager.CERT_FILTER_GPKI);
+            for (Object o : manager.getArrCert()) {
+                RSKSWCertificate certify = ((RSKSWCertificate) o);
+                if (certify.getSubjectDn().equalsIgnoreCase(subjectDn)) {
+                    manager.delCert(certify);
+                    isRemove = true;
+                    break;
+                }
+                n++;
+            }
+
+            WritableMap map = Arguments.createMap();
+            map.putInt("removeTo", (!isRemove ? -1 : n));
+            promise.resolve(map);
+
         }
         catch(Exception ex) {
             promise.reject(ex);
@@ -75,13 +91,57 @@ public class RNRaonSecureModule extends ReactContextBaseJavaModule {
         try {
 
             RSKSWCertManager manager = RSKSWCertManager.getInstance(reactContext);
+            manager.setCertLoadingMode(RSKSWCertManager.CERT_IN_APP | RSKSWCertManager.CERT_FILTER_NPKI | RSKSWCertManager.CERT_FILTER_GPKI);
+            for (Object o : manager.getArrCert()) {
+                RSKSWCertificate certify = ((RSKSWCertificate) o);
+                manager.delCert(certify);
+            }
 
+            WritableMap map = Arguments.createMap();
+            map.putBoolean("success", true);
+            promise.resolve(map);
+        }
+        catch(Exception ex) {
+            promise.reject(ex);
+        }
+    }
+
+
+    @ReactMethod
+    public void exportFile(String subjectDn, String path, Promise promise) {
+        try {
+            RSKSWCertManager manager = RSKSWCertManager.getInstance(reactContext);
             promise.resolve(null);
         }
         catch(Exception ex) {
             promise.reject(ex);
         }
     }
+
+    @ReactMethod
+    public void checkPassword(String subjectDn, String password, Promise promise) {
+        try {
+            RSKSWCertManager manager = RSKSWCertManager.getInstance(reactContext);
+
+            boolean success = false;
+            manager.setCertLoadingMode(RSKSWCertManager.CERT_IN_SDCARD | RSKSWCertManager.CERT_FILTER_NPKI | RSKSWCertManager.CERT_FILTER_GPKI);
+            for (Object o : manager.getArrCert()) {
+                RSKSWCertificate certify = ((RSKSWCertificate) o);
+                if (certify.getSubjectDn().equalsIgnoreCase(subjectDn)) {
+                    success = manager.checkPassword(certify, password.getBytes());
+                    break;
+                }
+            }
+
+            WritableMap map = Arguments.createMap();
+            map.putBoolean("success", success);
+            promise.resolve(map);
+        }
+        catch(Exception ex) {
+            promise.reject(ex);
+        }
+    }
+
 
     @ReactMethod
     public void getReceiveCode(Promise promise) {
