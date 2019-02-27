@@ -74,7 +74,7 @@ RCT_REMAP_METHOD(clear,
         RSKSWCertManager *manager = [RSKSWCertManager getInstance];
         [manager delAllCert: RSKSWConstCertMode_DEFAULT];
         
-        NSDictionary * result = @{ @"success": @"true" };
+        NSDictionary * result = @{ @"success": @YES };
         resolve(result);
     }
     @catch(NSException * e) {
@@ -104,9 +104,21 @@ RCT_REMAP_METHOD(exportFile,
 RCT_REMAP_METHOD(checkPassword,
                  checkPasswordWithSubjectDn:(nonnull NSString *)subjectDn Password:(nonnull NSString *)password resolver: (RCTPromiseResolveBlock)resolve rejecter: (RCTPromiseRejectBlock)reject) {
     @try {
+
+        BOOL success;
         RSKSWCertManager *manager = [RSKSWCertManager getInstance];
+        if ([manager count] > 0) {
+            for (int i = 0; i < [manager count]; i++) {
+                RSKSWCertificate* cert = [manager getCert:i];
+                if ([cert.getSubjectDn isEqualToString:subjectDn]) {
+                    int ret = [manager checkPassword:i currentPassword:password];
+                    success = ret > 0 ? YES : NO;
+                    break;
+                }
+            }
+        }
         
-        NSDictionary * result = @{ @"success": @"true" };
+        NSDictionary * result = @{ @"success": success };
         resolve(result);
     }
     @catch(NSException * e) {
