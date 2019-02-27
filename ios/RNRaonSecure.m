@@ -85,6 +85,38 @@ RCT_REMAP_METHOD(clear,
 }
 
 
+RCT_REMAP_METHOD(exportFile,
+                 exportFileWithSubjectDn:(nonnull NSString *)subjectDn Path:(nonnull NSString *)path resolver: (RCTPromiseResolveBlock)resolve rejecter: (RCTPromiseRejectBlock)reject) {
+    @try {
+        RSKSWCertManager *manager = [RSKSWCertManager getInstance];
+        
+        NSDictionary * result = @{ @"success": @"true" };
+        resolve(result);
+    }
+    @catch(NSException * e) {
+        NSLog(@"%@", e);
+        NSLog(@"ERRORR....");
+        reject(@"RNRaonSecure", e.userInfo.description, nil);
+    }
+}
+
+
+RCT_REMAP_METHOD(checkPassword,
+                 checkPasswordWithSubjectDn:(nonnull NSString *)subjectDn Password:(nonnull NSString *)password resolver: (RCTPromiseResolveBlock)resolve rejecter: (RCTPromiseRejectBlock)reject) {
+    @try {
+        RSKSWCertManager *manager = [RSKSWCertManager getInstance];
+        
+        NSDictionary * result = @{ @"success": @"true" };
+        resolve(result);
+    }
+    @catch(NSException * e) {
+        NSLog(@"%@", e);
+        NSLog(@"ERRORR....");
+        reject(@"RNRaonSecure", e.userInfo.description, nil);
+    }
+}
+
+
 RCT_REMAP_METHOD(getReceiveCode,
                  getReceiveCodeWithResolver: (RCTPromiseResolveBlock)resolve rejecter: (RCTPromiseRejectBlock)reject) {
     @try {
