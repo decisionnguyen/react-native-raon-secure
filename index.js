@@ -13,6 +13,14 @@ export default class RaonSecure extends React.PureComponent {
         return await RNRaonSecure.removeItem(subjectDn);
     }
 
+    static async exportFile(subjectDn, path) {
+        return await RNRaonSecure.exportFile(subjectDn, path);
+    }
+
+    static async checkPassword(subjectDn, password) {
+        return await checkPassword(subjectDn, password);
+    }
+
     state = {};
     constructor(props){
         super(props);
