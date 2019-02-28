@@ -5,6 +5,10 @@ const { RNRaonSecure } = NativeModules;
 
 export default class RaonSecure extends React.PureComponent {
 
+    static async clearTempDir() {
+        return await RNRaonSecure.clearTempDir();
+    }
+
     static async getItems() {
         return await RNRaonSecure.getItems();
     }

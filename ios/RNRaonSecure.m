@@ -11,6 +11,30 @@
 
 RCT_EXPORT_MODULE()
 
+RCT_REMAP_METHOD(clearTempDir,
+                 clearTempDirResolver: (RCTPromiseResolveBlock)resolve rejecter: (RCTPromiseRejectBlock)reject) {
+
+    @try {
+        BOOL success = YES;
+        NSString *tmpFullPath = [NSTemporaryDirectory() stringByAppendingString:@"certies"];
+        NSArray* tmpDirectory = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tmpFullPath error:NULL];
+    
+        for (NSString *file in tmpDirectory) {
+            BOOL deleted = [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@%@", tmpFullPath, file] error:NULL];
+            if (!deleted) {
+                success = NO;
+                break;
+            }
+        }
+    
+        resolve(@{ @"success" : success ? @YES : @NO });
+    }
+    @catch(NSException * e) {
+        NSLog(@"%@", e);
+        NSLog(@"ERRORR....");
+        reject(@"RNRaonSecure", e.userInfo.description, nil);
+    }
+}
 
 RCT_REMAP_METHOD(getItems,
                  getItemsWithResolver: (RCTPromiseResolveBlock)resolve rejecter: (RCTPromiseRejectBlock)reject) {
@@ -22,10 +46,12 @@ RCT_REMAP_METHOD(getItems,
             for (int i = 0; i < [manager count]; i++) {
                 RSKSWCertificate* cert = [manager getCert:i];
                 NSDictionary * result = @{
+                                          @"serial": cert.getSerialNumber,
                                           @"subjectDn": cert.getSubjectDn,
                                           @"subjectCn": cert.getSubjectCn,
                                           @"policy": cert.getPolicy,
                                           @"notAfterDate": cert.getNotAfterDate,
+                                          @"isExpired": (cert.isExpired != RSKSWConstCertExpMode_NORMAL ? @YES : @NO),
                                           };
                 [rows addObject: result];
             }
@@ -89,8 +115,22 @@ RCT_REMAP_METHOD(exportFile,
                  exportFileWithSubjectDn:(nonnull NSString *)subjectDn Path:(nonnull NSString *)path resolver: (RCTPromiseResolveBlock)resolve rejecter: (RCTPromiseRejectBlock)reject) {
     @try {
         RSKSWCertManager *manager = [RSKSWCertManager getInstance];
+        RSKSWCertificate* cert = [manager getCertBySubjectDN:subjectDn];
         
-        NSDictionary * result = @{ @"success": @"true" };
+        BOOL isDir;
+        NSString *tmpFullPath = [NSTemporaryDirectory() stringByAppendingString:@"certies"];
+        BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:tmpFullPath isDirectory:&isDir];
+        if (!exists) {
+            [[NSFileManager defaultManager] createDirectoryAtPath: tmpFullPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+        
+        NSString *certPath = [NSString stringWithFormat:@"%@/%@.der", tmpFullPath, path];
+        NSString *keyPath = [NSString stringWithFormat:@"%@/%@.key", tmpFullPath, path];
+        
+        [[cert cert] writeToFile:certPath options:NSDataWritingFileProtectionComplete error:nil];
+        [[cert key]  writeToFile:keyPath  options:NSDataWritingFileProtectionComplete error:nil];
+        
+        NSDictionary * result = @{ @"success": @YES };
         resolve(result);
     }
     @catch(NSException * e) {
@@ -140,7 +180,9 @@ RCT_REMAP_METHOD(getReceiveCode,
                 return;
             }
             
-            icrp = [[RSKSWICRProtocol alloc] initWithIP:@"211.32.131.182" port:10500];
+            NSNumber* port = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"RAON_SERVER_PORT"];
+            icrp = [[RSKSWICRProtocol alloc] initWithIP:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"RAON_SERVER_IP"]
+                                                   port:[port intValue]];
         }
         int ret = [icrp import1];
         if (ret < 0) {
@@ -189,10 +231,12 @@ RCT_REMAP_METHOD(importCertify,
             }
             cert = [[RSKSWCertificate alloc] initWithCert:importedCert];
             NSDictionary * result = @{
+                                      @"serial": cert.getSerialNumber,
                                       @"subjectDn": cert.getSubjectDn,
                                       @"subjectCn": cert.getSubjectCn,
                                       @"policy": cert.getPolicy,
                                       @"notAfterDate": cert.getNotAfterDate,
+                                      @"isExpired": (cert.isExpired != RSKSWConstCertExpMode_NORMAL ? @YES : @NO),
                                       };
             resolve(result);
         }
@@ -213,4 +257,6 @@ RCT_REMAP_METHOD(importCertify,
     }
 }
 
+
 @end
+
