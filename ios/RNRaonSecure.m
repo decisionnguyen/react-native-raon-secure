@@ -11,31 +11,6 @@
 
 RCT_EXPORT_MODULE()
 
-RCT_REMAP_METHOD(clearTempDir,
-                 clearTempDirResolver: (RCTPromiseResolveBlock)resolve rejecter: (RCTPromiseRejectBlock)reject) {
-
-    @try {
-        BOOL success = YES;
-        NSString *tmpFullPath = [NSTemporaryDirectory() stringByAppendingString:@"certies"];
-        NSArray* tmpDirectory = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tmpFullPath error:NULL];
-    
-        for (NSString *file in tmpDirectory) {
-            BOOL deleted = [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@%@", tmpFullPath, file] error:NULL];
-            if (!deleted) {
-                success = NO;
-                break;
-            }
-        }
-    
-        resolve(@{ @"success" : success ? @YES : @NO });
-    }
-    @catch(NSException * e) {
-        NSLog(@"%@", e);
-        NSLog(@"ERRORR....");
-        reject(@"RNRaonSecure", e.userInfo.description, nil);
-    }
-}
-
 RCT_REMAP_METHOD(getItems,
                  getItemsWithResolver: (RCTPromiseResolveBlock)resolve rejecter: (RCTPromiseRejectBlock)reject) {
     @try {
@@ -111,8 +86,8 @@ RCT_REMAP_METHOD(clear,
 }
 
 
-RCT_REMAP_METHOD(exportFile,
-                 exportFileWithSubjectDn:(nonnull NSString *)subjectDn Path:(nonnull NSString *)path resolver: (RCTPromiseResolveBlock)resolve rejecter: (RCTPromiseRejectBlock)reject) {
+RCT_REMAP_METHOD(getPath,
+                 getPathWithSubjectDn:(nonnull NSString *)subjectDn resolver: (RCTPromiseResolveBlock)resolve rejecter: (RCTPromiseRejectBlock)reject) {
     @try {
         RSKSWCertManager *manager = [RSKSWCertManager getInstance];
         RSKSWCertificate* cert = [manager getCertBySubjectDN:subjectDn];
@@ -124,13 +99,16 @@ RCT_REMAP_METHOD(exportFile,
             [[NSFileManager defaultManager] createDirectoryAtPath: tmpFullPath withIntermediateDirectories:YES attributes:nil error:nil];
         }
         
-        NSString *certPath = [NSString stringWithFormat:@"%@/%@.der", tmpFullPath, path];
-        NSString *keyPath = [NSString stringWithFormat:@"%@/%@.key", tmpFullPath, path];
+        NSString *certPath = [NSString stringWithFormat:@"%@/%@.der", tmpFullPath, cert.getSerialNumber];
+        NSString *keyPath  = [NSString stringWithFormat:@"%@/%@.key", tmpFullPath, cert.getSerialNumber];
         
         [[cert cert] writeToFile:certPath options:NSDataWritingFileProtectionComplete error:nil];
         [[cert key]  writeToFile:keyPath  options:NSDataWritingFileProtectionComplete error:nil];
         
-        NSDictionary * result = @{ @"success": @YES };
+        NSDictionary * result = @{ 
+			@"certPath": certPath, 
+			@"keyPath" : keyPath,
+		};
         resolve(result);
     }
     @catch(NSException * e) {

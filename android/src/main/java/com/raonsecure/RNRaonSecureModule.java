@@ -1,6 +1,9 @@
 
 package com.raonsecure;
 
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
 import com.facebook.react.bridge.*;
 import com.raonsecure.ksw.RSKSWCertManager;
 import com.raonsecure.ksw.RSKSWCertificate;
@@ -40,10 +43,12 @@ public class RNRaonSecureModule extends ReactContextBaseJavaModule {
             for (Object o : manager.getArrCert()) {
                 RSKSWCertificate certify = ((RSKSWCertificate) o);
                 WritableMap map = Arguments.createMap();
+                map.putString("serial", certify.getSerialNumber());
                 map.putString("subjectDn", certify.getSubjectDn());
                 map.putString("subjectCn", certify.getSubjectCn());
                 map.putString("policy", certify.getPolicy());
                 map.putString("notAfterDate", certify.getNotAfterDate());
+                map.putBoolean("isExpired", certify.isExpired() != RSKSWCertificate.RSKSWConstCertExpModeNORMAL);
                 rows.pushMap(map);
             }
 
@@ -108,10 +113,26 @@ public class RNRaonSecureModule extends ReactContextBaseJavaModule {
 
 
     @ReactMethod
-    public void exportFile(String subjectDn, String path, Promise promise) {
+    public void getPath(String subjectDn, Promise promise) {
         try {
+            String keyPath = "";
+            String certPath = "";
+
             RSKSWCertManager manager = RSKSWCertManager.getInstance(reactContext);
-            promise.resolve(null);
+            manager.setCertLoadingMode(RSKSWCertManager.CERT_IN_SDCARD | RSKSWCertManager.CERT_FILTER_NPKI | RSKSWCertManager.CERT_FILTER_GPKI);
+            for (Object o : manager.getArrCert()) {
+                RSKSWCertificate certify = ((RSKSWCertificate) o);
+                if (certify.getSubjectDn().equalsIgnoreCase(subjectDn)) {
+                    keyPath = certify.getKeyPath();
+                    certPath = certify.getCertPath();
+                    break;
+                }
+            }
+
+            WritableMap map = Arguments.createMap();
+            map.putString("keyPath", keyPath);
+            map.putString("certPath", certPath);
+            promise.resolve(map);
         }
         catch(Exception ex) {
             promise.reject(ex);
@@ -152,7 +173,17 @@ public class RNRaonSecureModule extends ReactContextBaseJavaModule {
                 int ret1 = RSKSWICRProtocol.getLibraryState(reactContext);
                 if (ret1 != 8) throw new Exception("License Not Allowed");
 
-                icrp = new RSKSWICRProtocol(reactContext, "211.32.131.182", 10500);
+                String e = reactContext.getPackageName();
+                ApplicationInfo ai = reactContext
+                        .getPackageManager()
+                        .getApplicationInfo(e, PackageManager.GET_META_DATA);
+
+                Bundle bundle = ai.metaData;
+
+                final String SERVER_IP = bundle.getString("RAON_SERVER_IP");
+                final int SERVER_PORT = bundle.getInt("RAON_SERVER_PORT");
+
+                icrp = new RSKSWICRProtocol(reactContext, SERVER_IP, SERVER_PORT);
             }
 
             Hashtable<String, Object> res = icrp.import1();
@@ -191,10 +222,12 @@ public class RNRaonSecureModule extends ReactContextBaseJavaModule {
 
                 cert = new RSKSWCertificate(importedCert, null);
                 WritableMap result = Arguments.createMap();
+                result.putString("serial", cert.getSerialNumber());
                 result.putString("subjectDn", cert.getSubjectDn());
                 result.putString("subjectCn", cert.getSubjectCn());
                 result.putString("policy", cert.getPolicy());
                 result.putString("notAfterDate", cert.getNotAfterDate());
+                result.putBoolean("isExpired", cert.isExpired() != RSKSWCertificate.RSKSWConstCertExpModeNORMAL);
                 promise.resolve(result);
             }
             else if (res.get("CODE").toString().equalsIgnoreCase("SC203")) {
@@ -206,10 +239,12 @@ public class RNRaonSecureModule extends ReactContextBaseJavaModule {
 
                 cert = new RSKSWCertificate(importedCert, null);
                 WritableMap result = Arguments.createMap();
+                result.putString("serial", cert.getSerialNumber());
                 result.putString("subjectDn", cert.getSubjectDn());
                 result.putString("subjectCn", cert.getSubjectCn());
                 result.putString("policy", cert.getPolicy());
                 result.putString("notAfterDate", cert.getNotAfterDate());
+                result.putBoolean("isExpired", cert.isExpired() != RSKSWCertificate.RSKSWConstCertExpModeNORMAL);
                 promise.resolve(result);
             }
             else {
