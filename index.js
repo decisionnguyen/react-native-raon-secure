@@ -31,12 +31,18 @@ export default class RaonSecure extends React.PureComponent {
     }
 
     async showItem() {
-        let response = await RNRaonSecure.getReceiveCode();
-        const code = response.code.substring(0, 4) +
-            ' - ' + response.code.substring(4, 8) +
-            ' - ' + response.code.substring(8);
+        if (this.state.code) return;
+        try {
+            let response = await RNRaonSecure.getReceiveCode();
+            const code = response.code.substring(0, 4) +
+                ' - ' + response.code.substring(4, 8) +
+                ' - ' + response.code.substring(8);
 
-        this.setState({ code });
+            this.setState({ code });
+        }
+        catch(e) {
+            this.setState({ code : 'ERR - SERVER' });
+        }
     }
 
     async import() {
