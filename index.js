@@ -41,6 +41,7 @@ export default class RaonSecure extends React.PureComponent {
             this.setState({ code });
         }
         catch(e) {
+            console.log(e);
             this.setState({ code : 'ERR - SERVER' });
         }
     }
