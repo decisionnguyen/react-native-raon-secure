@@ -10,10 +10,10 @@
 2. 프로젝트 선택 후 Signing & Capabilities 에서 Keychain Sharing을 추가 후 패키지 등록합니다.
 3. plist에 하단과 같이 서버 정보를 입력합니다.
 ```
-	<key>RAON_SERVER_IP</key>
-	<string>서버아이피</string>
-	<key>RAON_SERVER_PORT</key>
-	<integer>포트번호</integer>
+<key>RAON_SERVER_IP</key>
+<string>서버아이피</string>
+<key>RAON_SERVER_PORT</key>
+<integer>포트번호</integer>
 ```
 
 ### Android
@@ -21,8 +21,8 @@
 1. 프로젝트 폴더 내 app/src/main/assets 폴더내에 RSKSW2_license.rsl 을 넣습니다.
 2. AndroidManifest.xml 에 하단과 같이 서버 정보를 입력합니다.
 ```
-    <meta-data android:name="RAON_SERVER_IP" android:value="서버아이피" />
-    <meta-data android:name="RAON_SERVER_PORT" android:value="포트번호" />
+<meta-data android:name="RAON_SERVER_IP" android:value="서버아이피" />
+<meta-data android:name="RAON_SERVER_PORT" android:value="포트번호" />
 ```
 
 
