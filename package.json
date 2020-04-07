@@ -1,7 +1,7 @@
 {
   "name": "react-native-raon-secure",
   "title": "React Native Raon Secure",
-  "version": "1.0.0",
+  "version": "1.1.4",
   "description": "Raon Secure for React Native",
   "main": "index.js",
   "scripts": {

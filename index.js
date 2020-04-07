@@ -3,31 +3,31 @@ import {NativeModules} from 'react-native';
 const {RaonSecure} = NativeModules;
 
 export const clearTempDir = async () => {
-    return await RNRaonSecure.clearTempDir();
+    return await RaonSecure.clearTempDir();
 }
 
 export const getItems = async () => {
-    return await RNRaonSecure.getItems();
+    return await RaonSecure.getItems();
 }
 
 export const removeItem = async (subjectDn) => {
-    return await RNRaonSecure.removeItem(subjectDn);
+    return await RaonSecure.removeItem(subjectDn);
 }
 
 export const getPath = async (subjectDn) => {
-    return await RNRaonSecure.getPath(subjectDn);
+    return await RaonSecure.getPath(subjectDn);
 }
 
 export const checkPassword = async (subjectDn, password) => {
-    return await RNRaonSecure.checkPassword(subjectDn, password);
+    return await RaonSecure.checkPassword(subjectDn, password);
 }
 
 export const getReceiveCode = async () => {
-    return await RNRaonSecure.getReceiveCode();
+    return await RaonSecure.getReceiveCode();
 }
 
 export const importCertify = async () => {
-    return await RNRaonSecure.importCertify();
+    return await RaonSecure.importCertify();
 }
 
 

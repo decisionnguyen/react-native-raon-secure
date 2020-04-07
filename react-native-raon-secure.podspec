@@ -12,10 +12,11 @@ Pod::Spec.new do |s|
   s.platforms    = { :ios => "9.0" }
   s.source       = { :git => "https://github.com/trabricks-react/react-native-raon-secure.git", :tag => "#{s.version}" }
 
-  s.source_files = "ios/**/*.{h,m,swift}"
+  s.source_files = "ios/**/*.{h,m,a,swift}"
   s.requires_arc = true
 
   s.dependency "React"
   s.vendored_frameworks = 'ios/RSLicenseSDK.framework'
+  s.vendored_libraries = ['ios/libKeySharpCryptoV1_3.a', 'ios/libRSKSW2_v2.0.2.9.a']
 end
 
