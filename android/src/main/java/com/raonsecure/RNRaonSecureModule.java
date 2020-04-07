@@ -53,8 +53,7 @@ public class RNRaonSecureModule extends ReactContextBaseJavaModule {
             }
 
             promise.resolve(rows);
-        }
-        catch(Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             promise.reject(ex);
         }
@@ -84,8 +83,7 @@ public class RNRaonSecureModule extends ReactContextBaseJavaModule {
             map.putInt("removeTo", (!isRemove ? -1 : n));
             promise.resolve(map);
 
-        }
-        catch(Exception ex) {
+        } catch (Exception ex) {
             promise.reject(ex);
         }
     }
@@ -105,8 +103,7 @@ public class RNRaonSecureModule extends ReactContextBaseJavaModule {
             WritableMap map = Arguments.createMap();
             map.putBoolean("success", true);
             promise.resolve(map);
-        }
-        catch(Exception ex) {
+        } catch (Exception ex) {
             promise.reject(ex);
         }
     }
@@ -133,8 +130,7 @@ public class RNRaonSecureModule extends ReactContextBaseJavaModule {
             map.putString("keyPath", keyPath);
             map.putString("certPath", certPath);
             promise.resolve(map);
-        }
-        catch(Exception ex) {
+        } catch (Exception ex) {
             promise.reject(ex);
         }
     }
@@ -157,8 +153,7 @@ public class RNRaonSecureModule extends ReactContextBaseJavaModule {
             WritableMap map = Arguments.createMap();
             map.putBoolean("success", success);
             promise.resolve(map);
-        }
-        catch(Exception ex) {
+        } catch (Exception ex) {
             promise.reject(ex);
         }
     }
@@ -191,12 +186,10 @@ public class RNRaonSecureModule extends ReactContextBaseJavaModule {
                 WritableMap result = Arguments.createMap();
                 result.putString("code", res.get("RANDOMNUMBER").toString());
                 promise.resolve(result);
-            }
-            else {
+            } else {
                 throw new Exception(res.get("MESSAGE").toString());
             }
-        }
-        catch(Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             promise.reject(ex);
         }
@@ -229,8 +222,7 @@ public class RNRaonSecureModule extends ReactContextBaseJavaModule {
                 result.putString("notAfterDate", cert.getNotAfterDate());
                 result.putBoolean("isExpired", cert.isExpired() != RSKSWCertificate.RSKSWConstCertExpModeNORMAL);
                 promise.resolve(result);
-            }
-            else if (res.get("CODE").toString().equalsIgnoreCase("SC203")) {
+            } else if (res.get("CODE").toString().equalsIgnoreCase("SC203")) {
                 byte[] importedCert = icrp.getCert();
                 byte[] importedKey = icrp.getKey();
 
@@ -246,12 +238,10 @@ public class RNRaonSecureModule extends ReactContextBaseJavaModule {
                 result.putString("notAfterDate", cert.getNotAfterDate());
                 result.putBoolean("isExpired", cert.isExpired() != RSKSWCertificate.RSKSWConstCertExpModeNORMAL);
                 promise.resolve(result);
-            }
-            else {
+            } else {
                 throw new Exception(res.get("MESSAGE").toString());
             }
-        }
-        catch(Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             promise.reject(ex);
         }
