@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-public class RNRaonSecureModule extends ReactContextBaseJavaModule {
+public class RaonSecureModule extends ReactContextBaseJavaModule {
 
     private final ReactApplicationContext reactContext;
     private RSKSWICRProtocol icrp;
 
-    public RNRaonSecureModule(ReactApplicationContext reactContext) {
+    public RaonSecureModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
         RSKSWICRProtocol.securityLevel = RSKSWICRProtocol.RSKSWConstCRSecLevel_SHA1;
@@ -26,7 +26,7 @@ public class RNRaonSecureModule extends ReactContextBaseJavaModule {
 
     @Override
     public String getName() {
-        return "RNRaonSecure";
+        return "RaonSecure";
     }
 
 

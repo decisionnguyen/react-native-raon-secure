@@ -1,6 +1,6 @@
 import {NativeModules} from 'react-native';
 
-const {RNRaonSecure} = NativeModules;
+const {RaonSecure} = NativeModules;
 
 export const clearTempDir = async () => {
     return await RNRaonSecure.clearTempDir();
