@@ -1,7 +1,7 @@
 {
   "name": "react-native-raon-secure",
   "title": "React Native Raon Secure",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Raon Secure for React Native",
   "main": "index.js",
   "scripts": {
@@ -9,8 +9,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/github_account/react-native-raon-secure.git",
-    "baseUrl": "https://github.com/github_account/react-native-raon-secure"
+    "url": "git+https://github.com/trabricks-react/react-native-raon-secure.git",
+    "baseUrl": "https://github.com/trabricks-react/react-native-raon-secure"
   },
   "keywords": [
     "react-native"
